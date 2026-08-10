@@ -277,6 +277,7 @@ const tracks = [
     blurb:
       "30 credits: 3 credits of professional development, 9 credits of breadth (BIN) coursework, 6 credits of research coursework, and 12 elective credits.",
     goal: 30,
+    advisor: { name: "Meagan", url: links.advisorMscs },
     state: {
       isBam: false,
       isNonCsPhd: false,
@@ -298,20 +299,18 @@ const tracks = [
         key: "isBam",
         label: "Are you in the Computer Science Bachelor's-Accelerated Master's (BAM) program?",
         type: "checkbox",
-        checkedLabel: "BAM student",
-        uncheckedLabel: "Not a BAM student",
+        boxLabel: "BAM student",
       },
       {
         key: "isNonCsPhd",
         label: "Are you pursuing the MSCS as a non-CS PhD student?",
         type: "checkbox",
-        checkedLabel: "MSCS as a non-CS PhD",
-        uncheckedLabel: "Not a non-CS PhD student",
+        boxLabel: "Non-CS PhD student",
       },
       {
         key: "pace",
         label: "Are you pursuing the degree full-time or part-time?",
-        type: "select",
+        type: "choice",
         options: paceOptions,
         note: "Drives the recommended timeline below.",
       },
@@ -520,6 +519,7 @@ const tracks = [
     blurb:
       "30 credits: 9 credits of breadth (BIN) coursework, 6 credits of Projects, and 15 elective credits. Waiving the Projects adds 6 more elective credits.",
     goal: 30,
+    advisor: { name: "Daniel", url: links.advisor },
     state: {
       subplan: GENERAL_TRACK,
       entryTerm: "Fall 2025",
@@ -639,6 +639,7 @@ const tracks = [
     blurb:
       "The 30-credit MSCPS, plus the BAM forms and the undergraduate coursework you carry into graduate status.",
     goal: 30,
+    advisor: { name: "Daniel", url: links.advisor },
     state: {
       subplan: GENERAL_TRACK,
       finalUgTerm: "Spring 2026",
@@ -853,6 +854,7 @@ const tracks = [
     blurb:
       "45 credits total: 24 credits of Computer Science coursework and 21 credits of Engineering Management coursework. Six approved EMEN credits also count toward the 30-credit MSCPS candidacy.",
     goal: 45,
+    advisor: { name: "Daniel", url: links.advisor },
     state: {
       subplan: GENERAL_TRACK,
       entryTerm: "Fall 2025",
@@ -892,16 +894,8 @@ const tracks = [
         title: "Computer Science Requirements (24 cr)",
         rows: binRows().concat([
           projectsRow({
-            enabled: (state) => projectsUnlocked(state) && binsComplete(state),
-            lockedNote: (state) =>
-              binsComplete(state)
-                ? PROJECTS_GATE_NOTE
-                : "Finish all three BIN courses first — the Projects should be your last CSCI courses.",
-            status: (state) => {
-              if (projectsWaived(state)) return "Waived";
-              if (state.projects) return "Completed";
-              return projectsUnlocked(state) && binsComplete(state) ? "Eligible" : "Not eligible";
-            },
+            requirement:
+              "BOTH courses in one sequence must be completed with a B or higher. Finishing the BIN courses first is recommended — the Projects are usually your last CSCI courses — but CSCI electives can run alongside your BINs.",
           }),
           {
             key: "csElectives",
@@ -1076,6 +1070,7 @@ const tracks = [
     blurb:
       "The 30-credit MSCPS, with the breadth requirement and application materials completed before you officially join the program.",
     goal: 30,
+    advisor: { name: "Daniel", url: links.advisor },
     state: {
       subplan: GENERAL_TRACK,
       entryTerm: "Fall 2026",
@@ -1524,15 +1519,36 @@ function renderPlanField(track, field, state) {
       field.label
     )}">${options}</select>`;
   } else if (field.type === "checkbox") {
+    // The label stays fixed; the box itself carries the yes/no answer.
     control = `
       <label class="input-inline">
         <input type="checkbox" data-track="${track.id}" data-key="${field.key}" ${
       value ? "checked" : ""
     } aria-label="${escapeHtml(field.label)}" />
-        <span aria-hidden="true">${escapeHtml(
-          value ? field.checkedLabel || "Yes" : field.uncheckedLabel || "No"
-        )}</span>
+        <span>${escapeHtml(field.boxLabel)}</span>
       </label>
+    `;
+  } else if (field.type === "choice") {
+    control = `
+      <div class="choice-group" role="radiogroup" aria-label="${escapeHtml(field.label)}">
+        ${field.options
+          .map(
+            (option) => `
+              <label class="choice-option ${option === value ? "choice-option--active" : ""}">
+                <input
+                  type="radio"
+                  name="${track.id}-${field.key}"
+                  data-track="${track.id}"
+                  data-key="${field.key}"
+                  value="${escapeHtml(option)}"
+                  ${option === value ? "checked" : ""}
+                />
+                <span>${escapeHtml(option)}</span>
+              </label>
+            `
+          )
+          .join("")}
+      </div>
     `;
   } else {
     const options = field.optionsFor ? field.optionsFor(state) : field.options;
@@ -1708,6 +1724,8 @@ function renderTrack(track) {
   const earned = earnedCredits(track, state);
   const pct = Math.min(100, Math.round((earned / track.goal) * 100));
 
+  const advisor = track.advisor;
+
   const host = document.querySelector(`[data-track-panel="${track.id}"]`);
   if (!host) return;
 
@@ -1730,7 +1748,7 @@ function renderTrack(track) {
         <div>
           <h2>Degree Tracker</h2>
         </div>
-        <p>Every course except where noted must be completed with a grade of B or higher.</p>
+        <p>All courses except Electives must be completed with a grade of B or higher.</p>
       </div>
 
       ${groups.map((group) => renderTrackerGroup(track, group, state)).join("")}
@@ -1765,11 +1783,13 @@ function renderTrack(track) {
       <article class="dropin-card">
         <div>
           <p class="dropin-card__kicker">Advisor Drop-ins</p>
-          <h3>Daniel&apos;s Drop-ins</h3>
+          <h3>${escapeHtml(advisor.name)}&apos;s Drop-ins</h3>
           <p>Course planning, subplan forms, internship course questions, and deadlines.</p>
           <div class="dropin-card__inline">
             <div class="dropin-card__actions">
-              <a class="dropin-card__link" href="${links.advisor}" target="_blank" rel="noreferrer" aria-label="Book Daniel's drop-in (opens in new tab)">Book a drop-in</a>
+              <a class="dropin-card__link" href="${advisor.url}" target="_blank" rel="noreferrer" aria-label="Book ${escapeHtml(
+    advisor.name
+  )}'s drop-in (opens in new tab)">Book a drop-in</a>
             </div>
           </div>
         </div>

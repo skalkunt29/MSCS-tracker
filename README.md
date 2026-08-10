@@ -55,6 +55,11 @@ Switching tabs never mixes one pathway's answers into another.
   undergraduate term, summers included.
 - **Completion deadlines** are entry term + 4 years, or + 6 years for the dual
   degree.
+- **Grades**: professional development, breadth, Projects, research, and subplan
+  courses all need a B or higher. Electives are the exception and may count with
+  a lower grade, as long as your cumulative GPA stays at or above 3.00.
+- **Advising**: the research MS is advised by Meagan, the MSCPS pathways by
+  Daniel, and each tab links its own drop-ins.
 
 ## Files
 

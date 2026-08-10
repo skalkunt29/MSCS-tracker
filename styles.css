@@ -789,6 +789,7 @@ select {
   display: grid;
   align-content: start;
   gap: 0.45rem;
+  min-width: 0;
   padding: 0.95rem 1rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
@@ -800,14 +801,81 @@ select {
   font-size: 0.85rem;
   font-weight: 700;
   line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+/* Long option labels must not push the card past its grid track. */
+.plan-field select,
+.plan-field input[type="number"] {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #fffdf9;
+  color: var(--ink);
+  text-overflow: ellipsis;
+}
+
+.plan-field select:focus,
+.plan-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(140, 90, 36, 0.16);
 }
 
 .plan-field__note {
   margin: 0;
+  min-width: 0;
   color: var(--muted);
   font-size: 0.82rem;
   font-style: italic;
   line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+/* Segmented choice control (e.g. Full-time / Part-time) */
+.choice-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.choice-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fffdf9;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.choice-option:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.choice-option:focus-within {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+.choice-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice-option--active {
+  border-color: var(--accent-strong);
+  background: var(--black);
+  color: #fff6ea;
 }
 
 /* Multi-select course pickers for subplan requirements */

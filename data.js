@@ -275,8 +275,10 @@ const emenChoiceOptions = [
 const paceOptions = ["Full-time", "Part-time"];
 
 const links = {
+  // MSCPS pathways are advised by Daniel; the research MS is advised by Meagan.
   advisor:
     "https://outlook.office365.com/owa/calendar/CS_DanielAdamsAdvisingDropIns@colorado.edu/bookings/",
+  advisorMscs: "https://outlook.office365.com/owa/calendar/CS_GradAdvisor@o365.colorado.edu/bookings/",
   mscpsRequirements:
     "https://www.colorado.edu/cs/academics/graduate-programs/professional-masters-computer-science/degree-requirements",
   mscsRequirements:
