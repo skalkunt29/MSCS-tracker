@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MS in Computer Science Milestone Tracker</title>
+    <meta
+      name="description"
+      content="A clean tracking interface for the CU Boulder MS in Computer Science (MSCS) and Professional MS in Computer Science (MSCPS) degree requirements, including subplans, BAM, dual degree, and non-CS PhD pathways."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Condensed:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-nav">Skip to main content</a>
+    <main id="main-content" class="page-shell dashboard">
+      <section class="intro-card">
+        <h1>MS in Computer Science Tracker</h1>
+        <p>
+          <em>Please note that this tool is provided for student planning and
+          convenience only. It is not an official
+          <a href="https://www.colorado.edu/registrar/students/degree-planning/audit/run" target="_blank" rel="noopener">degree audit</a>.
+          Students may use it to review their progress toward the MS in Computer
+          Science (MSCS) and Professional MS in Computer Science (MSCPS)
+          requirements and to plan future coursework.</em>
+        </p>
+        <p>
+          <strong>Start here:</strong> pick your degree in the tabs below, then
+          pick your pathway. Each pathway has its own requirements, timeline, and
+          forms. The FAQs apply to every pathway.
+        </p>
+        <p>
+          <strong>Grade requirement:</strong> breadth (BIN), Projects, research,
+          and subplan courses must be completed with a grade of
+          <strong>B or higher</strong>. A grade of C, C+, or B- lets a breadth
+          course count toward Electives only. Your cumulative GPA must stay at or
+          above 3.00.
+        </p>
+      </section>
+
+      <nav class="tab-bar" role="tablist" aria-label="Degree programs">
+        <button
+          class="tab-button tab-button--active"
+          type="button"
+          role="tab"
+          id="tab-mscs"
+          data-tab="mscs"
+          aria-selected="true"
+          aria-controls="mscsTab"
+        >
+          MS in Computer Science
+        </button>
+        <button
+          class="tab-button"
+          type="button"
+          role="tab"
+          id="tab-mscps"
+          data-tab="mscps"
+          aria-selected="false"
+          aria-controls="mscpsTab"
+        >
+          Professional MS (MSCPS)
+        </button>
+        <button
+          class="tab-button"
+          type="button"
+          role="tab"
+          id="tab-faq"
+          data-tab="faq"
+          aria-selected="false"
+          aria-controls="faqTab"
+        >
+          Tracker FAQs
+        </button>
+      </nav>
+
+      <div
+        id="mscsTab"
+        class="tab-panel tab-panel--active"
+        data-tab-panel="mscs"
+        role="tabpanel"
+        aria-labelledby="tab-mscs"
+        tabindex="0"
+      >
+        <div data-track-host="mscs"></div>
+      </div>
+
+      <div
+        id="mscpsTab"
+        class="tab-panel"
+        data-tab-panel="mscps"
+        role="tabpanel"
+        aria-labelledby="tab-mscps"
+        tabindex="0"
+      >
+        <nav
+          class="subtab-bar"
+          id="mscpsSubtabs"
+          role="tablist"
+          aria-label="Professional MS pathways"
+        ></nav>
+        <div data-track-host="mscps"></div>
+      </div>
+
+      <div
+        id="faqTab"
+        class="tab-panel"
+        data-tab-panel="faq"
+        role="tabpanel"
+        aria-labelledby="tab-faq"
+        tabindex="0"
+      >
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="section-heading__kicker">Common to every pathway</p>
+              <h2>Tracker FAQs</h2>
+            </div>
+            <p>Quick answers and official links for the policies behind this tracker.</p>
+          </div>
+
+          <div id="faqCards" class="resource-grid" aria-live="polite"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-shell">
+        <p>
+          Tracking aid for the CU Boulder MS in Computer Science and Professional
+          MS in Computer Science. Verify final requirements, forms, and deadlines
+          with the department and the Graduate School.
+        </p>
+      </div>
+    </footer>
+
+    <script src="./data.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
