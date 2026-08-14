@@ -307,8 +307,6 @@ const links = {
   bamRegistrar: "https://www.colorado.edu/registrar/students/degree-planning/bam-program",
   bamCs:
     "https://www.colorado.edu/cs/academics/undergraduate-programs/accelerated-masters-programs/computer-science-accelerated-masters-0",
-  bamIntentForm:
-    "https://portal.prod.cu.edu/psc/epprod/UCB2/ENTP/s/WEBLIB_CU_EFORM.ISCRIPT1.FieldFormula.IScript_Populate_eForm?form=UCB_STUDENT_BAM",
   bamApplication: "https://forms.gle/EsaRTE3KwDNBFSWJ8",
   dualCs: "https://www.colorado.edu/cs/dual-professional-ms-engineering-management",
   dualEmen:

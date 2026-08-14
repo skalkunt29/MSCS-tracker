@@ -721,16 +721,16 @@ const tracks = [
           projectsRow({
             requirement:
               "BOTH courses in one sequence must be completed with a B or higher. If your undergraduate Projects sequence was approved above, this requirement is already waived.",
-            enabled: (state) => projectsUnlocked(state) && !bamAutoWaiver(state),
-            lockedNote: (state) =>
-              bamAutoWaiver(state)
-                ? "Automatically waived by your undergraduate Projects sequence. Complete 6 additional elective credit hours instead."
-                : "BAM students who have already spent a year in the BAM program as an undergraduate do not need to wait — confirm with your advisor.",
+            // BAM students spend at least a year in the program as undergraduates, so the
+            // one-year wait after the entry term does not apply to them.
+            enabled: (state) => !bamAutoWaiver(state),
+            lockedNote: () =>
+              "Automatically waived by your undergraduate Projects sequence. Complete 6 additional elective credit hours instead.",
             status: (state) => {
               if (bamAutoWaiver(state)) return "Waived";
               if (projectsWaived(state)) return "Waived";
               if (state.projects) return "Completed";
-              return projectsUnlocked(state) ? "Eligible" : "Not eligible";
+              return "Eligible";
             },
             credits: (state) =>
               !bamAutoWaiver(state) && state.projects && !projectsWaived(state) ? 6 : 0,
@@ -814,7 +814,6 @@ const tracks = [
           links: [
             { label: "BAM program (Registrar)", url: links.bamRegistrar },
             { label: "CS accelerated master's programs", url: links.bamCs },
-            { label: "Graduate School BAM Intent Form", url: links.bamIntentForm },
           ],
         },
         breadthNote,
@@ -825,7 +824,6 @@ const tracks = [
           instructions: [
             "Most BAM CS students waive the Projects by completing the undergraduate equivalent: CSCI 4308 & 4318, CSCI 4348 & 4358, or CSCI 4368 & 4378 with a B or higher in BOTH courses.",
             "Otherwise the Projects are required, and full-time students typically complete them during their first year in graduate status.",
-            "BAM students who have spent at least a year in the BAM program as an undergraduate do not need to wait a full academic year.",
             "Part-time students should finish the BINs and at least 15 credit hours first.",
           ],
           links: [
@@ -841,7 +839,6 @@ const tracks = [
     resources: [
       { label: "Computer Science BAM requirements", url: links.bamCs },
       { label: "BAM program (Registrar)", url: links.bamRegistrar },
-      { label: "Graduate School BAM Intent Form", url: links.bamIntentForm },
     ].concat(mscpsResources),
   },
 
